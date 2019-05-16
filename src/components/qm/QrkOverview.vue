@@ -5,21 +5,17 @@
   <v-container v-else>
     <v-breadcrumbs :items="items" divider=">"></v-breadcrumbs>
     <h1>Übersicht der Qualitätsregelkarten</h1>
+
     <v-layout row wrap>
-      <v-flex xs12 sm6 style="padding: 2%;">
+      <v-flex xs12 sm6 style="padding: 2%;" v-for="(qrk, i) in qrks" :key="i">
         <v-card>
-          <v-img
-            src="https://via.placeholder.com/728x90.png?text=Visit+WhoIsHostingThis.com+Buyers+Guide"
-             aspect-ratio="2.75"
-          ></v-img>
+          <v-img :src="qrk.bild_pfad" aspect-ratio="2.75"></v-img>
           <v-card-title>
-            <h2>QRK Titel</h2>
+            <h2>{{qrk.titel}}</h2>
           </v-card-title>
           <v-card-actions>
-            <v-btn class="primary">Ansehen</v-btn>
-            <v-btn class="primary">
-              <v-icon>add</v-icon>Messwert
-            </v-btn>
+            <v-spacer></v-spacer>
+            <v-btn class="primary" :to="{name: 'qrk', params: {qrk_id: qrk.id} }">Ansehen</v-btn>
           </v-card-actions>
         </v-card>
       </v-flex>
@@ -28,7 +24,12 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
+  computed: mapState({
+    qrks: state => state.qrks
+  }),
   data: () => ({
     items: [
       { text: "Dashboard", disabled: false, href: "/" },

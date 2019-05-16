@@ -21,8 +21,8 @@ export default new Router({
       component: QrkOverview
     },
     {
-      path: "/qm/qrk",
-      name: "Qrk",
+      path: "/qm/qrk/:qrk_id",
+      name: "qrk",
       component: Qrk
     }
   ]
