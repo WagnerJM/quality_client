@@ -6,9 +6,12 @@
     <v-breadcrumbs :items="items" divider=">"></v-breadcrumbs>
     <h1>Übersicht der Qualitätsregelkarten</h1>
     <v-layout row wrap>
-      <v-flex xs12 sm6 offset-sm3>
+      <v-flex xs12 sm6 style="padding: 2%;">
         <v-card>
-          <v-img src aspect-ratio="2.75"></v-img>
+          <v-img
+            src="https://via.placeholder.com/728x90.png?text=Visit+WhoIsHostingThis.com+Buyers+Guide"
+             aspect-ratio="2.75"
+          ></v-img>
           <v-card-title>
             <h2>QRK Titel</h2>
           </v-card-title>
