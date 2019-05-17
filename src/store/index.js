@@ -65,7 +65,8 @@ const store = new Vuex.Store({
         ],
         bild_pfad: "https://cdn.vuetifyjs.com/images/cards/desert.jpg"
       }
-    ]
+    ],
+    serverMessage: ""
   },
   mutations: {
     loading: state => {
@@ -80,6 +81,9 @@ const store = new Vuex.Store({
     },
     setAllQrk: (state, payload) => {
       state.qrks = payload.qrks;
+    },
+    setServerMessage: (state, payload) => {
+      state.serverMessage = payload.message;
     }
   },
   actions: {
@@ -116,11 +120,34 @@ const store = new Vuex.Store({
           commit("loading");
         });
     },
-    EDIT_QRK({ state, commit, dispatch }, qrk_id, payload) {
+    EDIT_QRK({ commit, dispatch }, qrk_id, payload) {
       commit("loading");
-      http.put(`/qrk/${qrk_id}`, payload).then(res => {});
+      http
+        .put(`/qrk/${qrk_id}`, payload)
+        .then(res => {
+          commit("setServerMessage", res.data);
+          dispatch("GET_ALL_QRK");
+          commit("loading");
+        })
+        .catch(error => {
+          commit("loading");
+          console.log(error);
+        });
     },
-    EDIT_QRK_MESSWERTE() {}
+    EDIT_QRK_MESSWERTE({ commit, dispatch }, qrk_id, messwert_id, payload) {
+      commit("loading");
+      http
+        .put(`/qrk/${qrk_id}/messwert/${messwert_id}`, payload)
+        .then(res => {
+          commit("setServerMessage", res.data);
+          dispatch("GET_ALL_QRK");
+          commit("loading");
+        })
+        .catch(error => {
+          console.log(error);
+          commit("loading");
+        });
+    }
   },
   getters: {
     token({ token }) {

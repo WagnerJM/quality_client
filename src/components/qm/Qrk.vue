@@ -25,11 +25,41 @@
             <h2>Messwerte</h2>
           </v-toolbar-title>
           <v-spacer></v-spacer>
-          <v-toolbar-items>
-            <v-btn icon color="primary">
-              <v-icon>add</v-icon>
-            </v-btn>
-          </v-toolbar-items>
+          <v-toolbar-items></v-toolbar-items>
+          <v-dialog v-model="dialog" max-width="500px">
+            <template v-slot:activator="{ on }">
+              <v-btn icon color="primary" class="mb-2" v-on="on">
+                <v-icon>add</v-icon>
+              </v-btn>
+            </template>
+            <v-card>
+              <v-card-title>
+                <span class="headline">Neuer Messwert</span>
+              </v-card-title>
+
+              <v-card-text>
+                <v-container grid-list-md>
+                  <v-layout wrap>
+                    <v-flex xs12 sm6 md4>
+                      <v-text-field v-model="editedItem.datum" label="Datum"></v-text-field>
+                    </v-flex>
+                    <v-flex xs12 sm6 md4>
+                      <v-text-field v-model="editedItem.wert" label="Wert"></v-text-field>
+                    </v-flex>
+                    <v-flex xs12 sm6 md4>
+                      <v-checkbox v-model="editedItem.valid" label="Gültig"></v-checkbox>
+                    </v-flex>
+                  </v-layout>
+                </v-container>
+              </v-card-text>
+
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="blue darken-1" flat @click="close($event)">Cancel</v-btn>
+                <v-btn color="blue darken-1" flat @click="save">Save</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
         </v-toolbar>
         <v-data-table
           :headers="headers"
@@ -45,6 +75,9 @@
             </td>
             <td class="text-xs-right" v-else>
               <v-icon color="red">close</v-icon>
+            </td>
+            <td class="text-xs-right">
+              <v-icon small class="mr-2" @click="editItem(props.item)">edit</v-icon>
             </td>
           </template>
           <template v-slot:footer>
@@ -67,6 +100,18 @@ export default {
   },
 
   data: () => ({
+    editedIndex: "",
+    editedItem: {
+      datum: "",
+      wert: 0,
+      valid: true
+    },
+    defaultItem: {
+      datum: "",
+      wert: -1,
+      valid: true
+    },
+    dialog: false,
     paginate_numbers: [20, 25, 40, 50],
     direction: "left",
     fab: false,
@@ -91,15 +136,44 @@ export default {
         value: "datum"
       },
       { text: "Wert", value: "wert", align: "right" },
-      { text: "Gültig", value: "valid", align: "right" }
+      { text: "Gültig", value: "valid", align: "right" },
+      { text: "Actions", value: "valid", align: "right" }
     ]
   }),
+
+  watch: {
+    dialog(val) {
+      val || this.close();
+    }
+  },
+
   computed: {
+    formTitle() {
+      return this.editedIndex === "" ? "Neuer Messwert" : "Bearbeiten";
+    },
     qrks() {
       return this.$store.getters["qrks"];
     },
     qrk() {
       return this.qrks.find(qrk => qrk.id === this.qrk_id);
+    }
+  },
+  methods: {
+    editItem(qrk) {
+      this.editedIndex = this.qrks.indexOf(qrk);
+      this.editedItem = Object.assign({}, qrk);
+      this.dialog = true;
+    },
+
+    close(event) {
+      this.dialog = false;
+      setTimeout(() => {
+        this.editedItem = Object.assign({}, this.defaultItem);
+        this.editedIndex = "";
+      }, 300);
+    },
+    save() {
+      this.dialog = false;
     }
   }
 };
