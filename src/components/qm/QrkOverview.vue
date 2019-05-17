@@ -8,6 +8,7 @@
         <v-breadcrumbs-item
           :href="props.item.href"
           :class="[props.item.disabled && 'disabled']"
+          :disabled="props.item.disabled"
         >{{ props.item.text.toUpperCase() }}</v-breadcrumbs-item>
       </template>
     </v-breadcrumbs>
