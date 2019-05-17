@@ -77,9 +77,51 @@ const store = new Vuex.Store({
     },
     logout: state => {
       state.isAuthenticated = false;
+    },
+    setAllQrk: (state, payload) => {
+      state.qrks = payload.qrks;
     }
   },
-  actions: {},
+  actions: {
+    CREATE_QRK({ commit, dispatch }, formData) {
+      commit("loading");
+      http({
+        method: "post",
+        url: "/qrk",
+        data: {
+          titel: formData.titel,
+          x_achse_titel: formData.x_achse_titel,
+          y_achse_titel: formData.y_achse_titel
+        }
+      })
+        .then(res => {
+          dispatch("GET_ALL_QRK");
+          commit("loading");
+        })
+        .catch(error => {
+          commit("loading");
+          console.log(error);
+        });
+    },
+    GET_ALL_QRK({ commit }) {
+      commit("loading");
+      http
+        .get("/qrk")
+        .then(res => {
+          commit("setAllQrk", res.data);
+          commit("loading");
+        })
+        .catch(error => {
+          console.log(error);
+          commit("loading");
+        });
+    },
+    EDIT_QRK({ state, commit, dispatch }, qrk_id, payload) {
+      commit("loading");
+      http.put(`/qrk/${qrk_id}`, payload).then(res => {});
+    },
+    EDIT_QRK_MESSWERTE() {}
+  },
   getters: {
     token({ token }) {
       return token;

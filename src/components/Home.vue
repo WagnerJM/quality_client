@@ -4,7 +4,7 @@
   </v-container>
   <v-container v-else>
     <v-layout row wrap>
-      <v-flex xs12 sm6 offset-sm3>
+      <v-flex xs12 sm6 offset-sm3 style="top: 50%;">
         <v-card class="clickable" @click.native="card_click($event, '/qm/qrkoverview')">
           <v-img
             src="https://via.placeholder.com/728x90.png?text=Visit+WhoIsHostingThis.com+Buyers+Guide"

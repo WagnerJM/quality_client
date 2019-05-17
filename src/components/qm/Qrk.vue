@@ -19,18 +19,36 @@
       <v-flex>
         <v-img :src="qrk.bild_pfad"></v-img>
       </v-flex>
-
       <v-flex>
-        <v-data-table :headers="headers" :items="qrk.messwerte" class="elevation-1">
+        <v-toolbar flat>
+          <v-toolbar-title>
+            <h2>Messwerte</h2>
+          </v-toolbar-title>
+          <v-spacer></v-spacer>
+          <v-toolbar-items>
+            <v-btn icon color="primary">
+              <v-icon>add</v-icon>
+            </v-btn>
+          </v-toolbar-items>
+        </v-toolbar>
+        <v-data-table
+          :headers="headers"
+          :items="qrk.messwerte"
+          :rows-per-page-items="this.paginate_numbers"
+          class="elevation-1"
+        >
           <template v-slot:items="props">
             <td>{{ props.item.datum }}</td>
             <td class="text-xs-right">{{ props.item.wert }}</td>
-            <td v-if="props.item.valid == true">
-              <v-icon>check</v-icon>
+            <td class="text-xs-right" v-if="props.item.valid == true">
+              <v-icon color="green">check</v-icon>
             </td>
-            <td v-else>
-              <v-icon>close</v-icon>
+            <td class="text-xs-right" v-else>
+              <v-icon color="red">close</v-icon>
             </td>
+          </template>
+          <template v-slot:footer>
+            <td :colspan="headers.length"></td>
           </template>
         </v-data-table>
       </v-flex>
@@ -49,6 +67,17 @@ export default {
   },
 
   data: () => ({
+    paginate_numbers: [20, 25, 40, 50],
+    direction: "left",
+    fab: false,
+    fling: false,
+    hover: false,
+    tabs: null,
+    top: false,
+    right: true,
+    bottom: true,
+    left: false,
+    transition: "slide-y-reverse-transition",
     items: [
       { text: "Dashboard", disabled: false, href: "/" },
       { text: "QM", disabled: false, href: "/qm/qrkoverview" },
