@@ -23,7 +23,12 @@ export default new Router({
     {
       path: "/qm/qrk/:qrk_id",
       name: "qrk",
-      component: Qrk
+      component: Qrk,
+      props: true
+    },
+    {
+      path: "*",
+      redirect: "/"
     }
   ]
 });
