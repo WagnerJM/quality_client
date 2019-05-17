@@ -4,7 +4,15 @@
     <v-progress-circular id="loading" color="primary" indeterminate :size="70" :width="7"></v-progress-circular>
   </v-container>
   <v-container v-else>
-    <v-breadcrumbs :items="items" divider=">"></v-breadcrumbs>
+    <v-breadcrumbs :items="items">
+      <template v-slot:item="props">
+        <v-breadcrumbs-item
+          :href="props.item.href"
+          :class="[props.item.disabled && 'disabled']"
+        >{{ props.item.text.toUpperCase() }}</v-breadcrumbs-item>
+      </template>
+    </v-breadcrumbs>
+
     <h1>{{qrk.titel}}</h1>
     <v-layout column>
       <v-flex>
@@ -16,11 +24,12 @@
           <template v-slot:items="props">
             <td>{{ props.item.datum }}</td>
             <td class="text-xs-right">{{ props.item.wert }}</td>
-            <td class="text-xs-right" v-if="props.item.value = true">
-            
-              <v-icon color="green">check</v-icon>
+            <td v-if="props.item.valid == true">
+              <v-icon>check</v-icon>
             </td>
-            <td class="text-xs-right" v-else><v-icon color="red">close</v-icon></td>
+            <td v-else>
+              <v-icon>close</v-icon>
+            </td>
           </template>
         </v-data-table>
       </v-flex>

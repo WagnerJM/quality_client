@@ -3,7 +3,14 @@
     <v-progress-circular id="loading" color="primary" indeterminate :size="70" :width="7"></v-progress-circular>
   </v-container>
   <v-container v-else>
-    <v-breadcrumbs :items="items" divider=">"></v-breadcrumbs>
+    <v-breadcrumbs :items="items">
+      <template v-slot:item="props">
+        <v-breadcrumbs-item
+          :href="props.item.href"
+          :class="[props.item.disabled && 'disabled']"
+        >{{ props.item.text.toUpperCase() }}</v-breadcrumbs-item>
+      </template>
+    </v-breadcrumbs>
     <h1>Übersicht der Qualitätsregelkarten</h1>
 
     <v-layout row wrap>

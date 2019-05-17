@@ -54,13 +54,13 @@ const store = new Vuex.Store({
             id: "t9t9ne-adef",
             datum: "16.04.2019",
             wert: 10.04,
-            valid: true
+            valid: false
           },
           {
             id: "t9n2cb-lolo",
             datum: "16.05.2019",
             wert: 10.02,
-            valid: true
+            valid: false
           }
         ],
         bild_pfad: "https://cdn.vuetifyjs.com/images/cards/desert.jpg"
