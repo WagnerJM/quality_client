@@ -38,6 +38,9 @@ export default {
   computed: mapState({
     qrks: state => state.qrks
   }),
+  getQRK() {
+    this.$store.dispatch("GET_ALL_QRK");
+  },
   data: () => ({
     items: [
       { text: "Dashboard", disabled: false, href: "/" },
