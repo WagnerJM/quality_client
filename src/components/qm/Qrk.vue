@@ -34,7 +34,7 @@
             </template>
             <v-card>
               <v-card-title>
-                <span class="headline">Neuer Messwert</span>
+                <span class="headline">{{formTitle}}</span>
               </v-card-title>
 
               <v-card-text>
@@ -56,7 +56,7 @@
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn color="blue darken-1" flat @click="close($event)">Cancel</v-btn>
-                <v-btn color="blue darken-1" flat @click="save">Save</v-btn>
+                <v-btn color="blue darken-1" flat @click="save($event)">Save</v-btn>
               </v-card-actions>
             </v-card>
           </v-dialog>
@@ -103,12 +103,12 @@ export default {
     editedIndex: "",
     editedItem: {
       datum: "",
-      wert: 0,
+      wert: 0.0,
       valid: true
     },
     defaultItem: {
       datum: "",
-      wert: -1,
+      wert: 0.0,
       valid: true
     },
     dialog: false,
@@ -172,7 +172,13 @@ export default {
         this.editedIndex = "";
       }, 300);
     },
-    save() {
+    save(event) {
+      this.$store.dispatch(
+        "SAVE_MESSWERT",
+        this.qrk_id,
+        this.editedIndex,
+        this.editedItem
+      );
       this.dialog = false;
     }
   }
