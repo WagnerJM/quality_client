@@ -24,7 +24,6 @@
             <h2>{{qrk.titel}}</h2>
           </v-card-title>
           <v-card-actions>
-            
             <v-btn class="primary" :to="{name: 'qrk', params: {qrk_id: qrk.id} }">Ansehen</v-btn>
           </v-card-actions>
         </v-card>
