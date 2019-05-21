@@ -14,7 +14,9 @@
     </v-breadcrumbs>
     <h1>Übersicht der Qualitätsregelkarten</h1>
 
-    <v-layout row wrap>
+    
+      <v-card>
+      <v-layout row wrap>
       <v-flex xs12 sm6 style="padding: 2%;" v-for="(qrk, i) in qrks" :key="i">
         <v-card>
           <v-img :src="qrk.bild_pfad" aspect-ratio="2.75"></v-img>
@@ -22,12 +24,29 @@
             <h2>{{qrk.titel}}</h2>
           </v-card-title>
           <v-card-actions>
-            <v-spacer></v-spacer>
+            
             <v-btn class="primary" :to="{name: 'qrk', params: {qrk_id: qrk.id} }">Ansehen</v-btn>
           </v-card-actions>
         </v-card>
       </v-flex>
     </v-layout>
+
+          <v-card-text style="height: 150px; position: relative">
+            <v-btn
+              absolute
+              dark
+              fab
+              top
+              right
+              color="primary"
+            >
+              <v-icon>add</v-icon>
+            </v-btn>
+          </v-card-text>
+        </v-card>
+ 
+
+      
   </v-container>
 </template>
 
@@ -38,6 +57,9 @@ export default {
   computed: mapState({
     qrks: state => state.qrks
   }),
+  getQRK() {
+    this.$store.dispatch("GET_ALL_QRK");
+  },
   data: () => ({
     items: [
       { text: "Dashboard", disabled: false, href: "/" },
