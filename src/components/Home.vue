@@ -7,7 +7,9 @@
       <v-flex xs12 sm6 offset-sm3 style="top: 50%;">
         <v-card class="clickable" @click.native="card_click($event, '/qm/qrkoverview')">
           <v-img
-            src="https://via.placeholder.com/1280x800?text=Placeholder+QC-Chart"
+
+            src="../assets/test.png"
+
             aspect-ratio="2.75"
           ></v-img>
           <v-card-title>
