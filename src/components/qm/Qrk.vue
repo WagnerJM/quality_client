@@ -14,12 +14,11 @@
       </template>
     </v-breadcrumbs>
 
-    <v-layout row >
+    <v-layout row>
       <v-flex xs12 sm6 md4>
         <h1>{{qrk.titel}}</h1>
       </v-flex>
-      <v-flex xs12 sm6 md4>
-
+      <v-flex offset-xs5 offset-md8 offset-lg8>
         <v-btn fab small icon color="primary" to="/qm/qrkoverview">
           <v-icon>arrow_back_ios</v-icon>
         </v-btn>
