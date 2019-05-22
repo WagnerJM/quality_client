@@ -14,7 +14,10 @@
       </template>
     </v-breadcrumbs>
 
-    <h1>{{qrk.titel}}</h1>
+    <h1>
+      {{qrk.titel}}
+      <v-btn color="primary" to="/qm/qrkoverview">zurück</v-btn>
+    </h1>
     <v-layout column>
       <v-flex>
         <v-img :src="qrk.bild_pfad"></v-img>
