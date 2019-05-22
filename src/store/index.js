@@ -89,25 +89,39 @@ const store = new Vuex.Store({
     }
   },
   actions: {
-    CREATE_QRK({ commit, dispatch }, formData) {
-      commit("loading");
-      http({
-        method: "post",
-        url: "/qrk",
-        data: {
-          titel: formData.titel,
-          x_achse_titel: formData.x_achse_titel,
-          y_achse_titel: formData.y_achse_titel
-        }
-      })
-        .then(res => {
-          dispatch("GET_ALL_QRK");
-          commit("loading");
+    SAVE_QRK({ commit, dispatch }, qrk_id, formData) {
+      if (qrk_id === "") {
+        commit("loading");
+        http({
+          method: "post",
+          url: "/qrk",
+          data: {
+            titel: formData.titel,
+            x_achse_titel: formData.x_achse_titel,
+            y_achse_titel: formData.y_achse_titel
+          }
         })
-        .catch(error => {
-          commit("loading");
-          console.log(error);
-        });
+          .then(res => {
+            dispatch("GET_ALL_QRK");
+            commit("loading");
+          })
+          .catch(error => {
+            commit("loading");
+            console.log(error);
+          });
+      } else {
+        commit("loading");
+        http
+          .put(`/qrk/${qrk_id}`, payload)
+          .then(res => {
+            commit("setServerMessage", res.data);
+            dispatch("GET_ALL_QRK");
+          })
+          .catch(error => {
+            commit("loading");
+            console.log(error);
+          });
+      }
     },
     GET_ALL_QRK({ commit }) {
       commit("loading");
@@ -120,19 +134,6 @@ const store = new Vuex.Store({
         .catch(error => {
           console.log(error);
           commit("loading");
-        });
-    },
-    EDIT_QRK({ commit, dispatch }, qrk_id, payload) {
-      commit("loading");
-      http
-        .put(`/qrk/${qrk_id}`, payload)
-        .then(res => {
-          commit("setServerMessage", res.data);
-          dispatch("GET_ALL_QRK");
-        })
-        .catch(error => {
-          commit("loading");
-          console.log(error);
         });
     },
     SAVE_MESSWERT({ commit, dispatch }, qrk_id, messwert_id, payload) {
