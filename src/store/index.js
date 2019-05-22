@@ -22,6 +22,7 @@ const store = new Vuex.Store({
         untere_eingriffsgrenze: 0.0,
         stdabw: 0.0,
         mittelwert: 0.0,
+        aktiv: true,
         messwerte: [
           {
             id: "t9t9ne-adef",
@@ -49,6 +50,7 @@ const store = new Vuex.Store({
         untere_eingriffsgrenze: 0.0,
         stdabw: 0.0,
         mittelwert: 0.0,
+        aktiv: true,
         messwerte: [
           {
             id: "t9t9ne-adef",
