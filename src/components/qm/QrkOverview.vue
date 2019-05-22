@@ -81,7 +81,9 @@ export default {
       return this.editedIndex === "" ? "Neue Regelkarte" : "Bearbeiten";
     },
     getQRK() {
+
       return this.$store.dispatch("GET_ALL_QRK");
+
     }
   },
   data: () => ({
