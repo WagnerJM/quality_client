@@ -13,11 +13,16 @@
         >{{ props.item.text.toUpperCase() }}</v-breadcrumbs-item>
       </template>
     </v-breadcrumbs>
-
-    <h1>
-      {{qrk.titel}}
-      <v-btn color="primary" to="/qm/qrkoverview">zurück</v-btn>
-    </h1>
+    <v-layout row >
+      <v-flex xs12 sm6 md4>
+        <h1>{{qrk.titel}}</h1>
+      </v-flex>
+      <v-flex xs12 sm6 md4>
+        <v-btn fab small icon color="primary" to="/qm/qrkoverview">
+          <v-icon>arrow_back_ios</v-icon>
+        </v-btn>
+      </v-flex>
+    </v-layout>
     <v-layout column>
       <v-flex>
         <v-img :src="qrk.bild_pfad"></v-img>
