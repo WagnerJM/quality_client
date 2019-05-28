@@ -95,11 +95,8 @@ const store = new Vuex.Store({
         http({
           method: "post",
           url: "/qrk",
-          data: {
-            titel: formData.titel,
-            x_achse_titel: formData.x_achse_titel,
-            y_achse_titel: formData.y_achse_titel
-          }
+          data: formData
+         
         })
           .then(res => {
             dispatch("GET_ALL_QRK");

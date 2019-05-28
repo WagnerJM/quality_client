@@ -108,7 +108,7 @@ export default {
   }),
   methods: {
     save(event) {
-      this.$store.dispatch("SAVE_QRK");
+	    this.$store.dispatch("SAVE_QRK", this.editedIndex, {titel: this.editedItem.titel, x_achse_titel:this.editedItem.x_achse_titel, y_achse_titel:this.editedItem.y_achse_titel});
       this.dialog = false;
     },
     close(event) {
