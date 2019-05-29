@@ -26,7 +26,7 @@
     </v-layout>
     <v-layout column>
       <v-flex>
-        <v-img :src="qrk.bild_pfad"></v-img>
+        <v-img :src="qrk.datei_pfad"></v-img>
       </v-flex>
       <v-flex>
         <v-toolbar flat>

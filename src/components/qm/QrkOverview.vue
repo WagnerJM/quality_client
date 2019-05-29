@@ -13,12 +13,11 @@
       </template>
     </v-breadcrumbs>
     <h1>Übersicht der Qualitätsregelkarten</h1>
-
     <v-card>
       <v-layout row wrap>
         <v-flex xs12 sm6 style="padding: 2%;" v-for="(qrk, i) in qrks" :key="i">
-          <v-card v-show="qrk.aktiv">
-            <v-img :src="qrk.bild_pfad" aspect-ratio="2.75"></v-img>
+          <v-card >
+            <v-img :src="qrk.datei_pfad" aspect-ratio="2.75"></v-img>
             <v-card-title>
               <h2>{{qrk.titel}}</h2>
 
@@ -86,6 +85,9 @@ export default {
 
     }
   },
+    created: function() {
+        this.$store.dispatch('GET_ALL_QRK');
+    },
   data: () => ({
     items: [
       { text: "Dashboard", disabled: false, href: "/" },
@@ -97,19 +99,29 @@ export default {
       titel: "",
       x_achse_titel: "",
       y_achse_titel: "",
-      aktiv: true
     },
     defaultItem: {
       titel: "",
       x_achse_titel: "",
       y_achse_titel: "",
-      aktiv: true
     }
   }),
   methods: {
     save(event) {
-	    this.$store.dispatch("SAVE_QRK", this.editedIndex, {titel: this.editedItem.titel, x_achse_titel:this.editedItem.x_achse_titel, y_achse_titel:this.editedItem.y_achse_titel});
-      this.dialog = false;
+        const formData = {
+            titel: this.editedItem.titel,
+            x_achse_titel: this.editedItem.x_achse_titel,
+            y_achse_titel: this.editedItem.y_achse_titel
+        };
+
+       
+        this.$store.dispatch('UPDATE_QRK', this.editedIndex, 
+            {
+                titel: formData.titel,
+                x_achse_titel: formData.x_achse_titel,
+                y_achse_titel: formData.y_achse_titel
+            })
+        
     },
     close(event) {
       this.dialog = false;
@@ -119,7 +131,8 @@ export default {
       }, 300);
     },
     editItem(qrk) {
-      this.editedIndex = this.qrks.indexOf(qrk);
+      this.editedIndex = qrk.id;
+        console.log(this.editedIndex);
       this.editedItem = Object.assign({}, qrk);
       this.dialog = true;
     }

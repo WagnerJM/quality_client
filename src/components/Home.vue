@@ -8,7 +8,7 @@
         <v-card class="clickable" @click.native="card_click($event, '/qm/qrkoverview')">
           <v-img
 
-            src="../assets/test.png"
+            src="http://localhost:5001/plot/placeholder"
 
             aspect-ratio="2.75"
           ></v-img>

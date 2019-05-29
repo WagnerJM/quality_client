@@ -82,44 +82,40 @@ const store = new Vuex.Store({
       state.isAuthenticated = false;
     },
     setAllQrk: (state, payload) => {
-      state.qrks = payload.qrks;
+        state.qrks = payload;
     },
     setServerMessage: (state, payload) => {
-      state.serverMessage = payload.message;
+      state.serverMessage = payload;
     }
   },
   actions: {
-    SAVE_QRK({ commit, dispatch }, qrk_id, formData) {
-      if (qrk_id === "") {
-        commit("loading");
+      SAVE_NEW_QRK({ commit, dispatch }, formData) {
+          commit('loading');
+          http.post("/qrk", {titel: formData.titel, x_achse_titel:formData.x_achse_titel, y_achse_titel: formData.y_achse_titel})
+          .then( res => {
+              dispatch('GET_ALL_QRK');
+              commit('loading');
+              console.log(res);
+          })
+          .catch(error => {
+              console.log(error)});
+      },
+      UPDATE_QRK({commit, dispatch}, id, formData) {
         http({
-          method: "post",
-          url: "/qrk",
-          data: formData
-         
+            method: "put",
+            url: `/qrk/${id}`,
+            data: {
+                titel: formData.titel, 
+                x_achse_titel:formData.x_achse_titel, 
+                y_achse_titel: formData.y_achse_titel
+            }
+        }).then(res => {
+            dispatch('GET_ALL_QRK')
+        }).catch(error => {
+            console.log(error)
         })
-          .then(res => {
-            dispatch("GET_ALL_QRK");
-            commit("loading");
-          })
-          .catch(error => {
-            commit("loading");
-            console.log(error);
-          });
-      } else {
-        commit("loading");
-        http
-          .put(`/qrk/${qrk_id}`, payload)
-          .then(res => {
-            commit("setServerMessage", res.data);
-            dispatch("GET_ALL_QRK");
-          })
-          .catch(error => {
-            commit("loading");
-            console.log(error);
-          });
-      }
-    },
+      },
+
     GET_ALL_QRK({ commit }) {
       commit("loading");
       http
