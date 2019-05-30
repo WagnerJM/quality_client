@@ -101,19 +101,20 @@ const store = new Vuex.Store({
               console.log(error)});
       },
       UPDATE_QRK({commit, dispatch}, id, formData) {
-        http({
-            method: "put",
-            url: `/qrk/${id}`,
-            data: {
-                titel: formData.titel, 
-                x_achse_titel:formData.x_achse_titel, 
-                y_achse_titel: formData.y_achse_titel
-            }
-        }).then(res => {
-            dispatch('GET_ALL_QRK')
-        }).catch(error => {
-            console.log(error)
-        })
+          console.log(formData);
+          http.put(`/qrk/${id}`, 
+              { 
+                  titel: formData.titel, 
+                  x_achse_titel: formData.x_achse_titel, 
+                  y_achse_titel: formData.y_achse_titel 
+              })
+              .then( rep => {
+                  console.log("yeah");
+                  dispatch('GET_ALL_QRK');
+              })
+          .catch( error => {
+            console.log(error);
+          })
       },
 
     GET_ALL_QRK({ commit }) {

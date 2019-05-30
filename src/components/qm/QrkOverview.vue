@@ -71,6 +71,9 @@
 </template>
 
 <script>
+
+import http from '../../axios-instance.js'
+
 export default {
   computed: {
     qrks() {
@@ -109,19 +112,33 @@ export default {
   methods: {
     save(event) {
         const formData = {
+		id: this.editedIndex,
             titel: this.editedItem.titel,
             x_achse_titel: this.editedItem.x_achse_titel,
             y_achse_titel: this.editedItem.y_achse_titel
         };
-
-       
-        this.$store.dispatch('UPDATE_QRK', this.editedIndex, 
-            {
-                titel: formData.titel,
-                x_achse_titel: formData.x_achse_titel,
-                y_achse_titel: formData.y_achse_titel
-            })
-        
+	
+	    if (this.editedIndex == "") {
+		    this.$store.dispatch("SAVE_NEW_QRK", 
+			    {
+				    titel: formData.titel,
+				    x_achse_titel: formData.x_achse_titel,
+				    y_achse_titel: formData.y_achse_titel
+			    })
+	    } else {
+		    http.put(`/qrk/${this.editedIndex}`,
+			    {
+				    titel: formData.titel,
+				    x_achse_titel: formData.x_achse_titel,
+				    y_achse_titel: formData.y_achse_titel
+			    }).then( res => {
+				    this.$store.dispatch("GET_ALL_QRK");
+			    
+			    }).catch( error => {
+				    console.log(error);
+			    })
+	    } 
+	    this.dialog = false;
     },
     close(event) {
       this.dialog = false;
