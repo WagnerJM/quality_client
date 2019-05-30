@@ -168,8 +168,8 @@ export default {
     }
   },
   methods: {
-    editItem(qrk) {
-      this.editedIndex = this.qrks.indexOf(qrk);
+    editItem(messwert) {
+      this.editedIndex = messwert.id;
       this.editedItem = Object.assign({}, qrk);
       this.dialog = true;
     },
@@ -182,12 +182,17 @@ export default {
       }, 300);
     },
     save(event) {
-      this.$store.dispatch(
-        "SAVE_MESSWERT",
-        this.qrk_id,
-        this.editedIndex,
-        this.editedItem
-      );
+        const formData = {
+            datum: this.editedItem.datum,
+                wert: this.editedItem.wert,
+                valid: this.editedItem.valid
+        }
+            this.$store.dispatch('SAVE_NEW_MESSWERT',
+                {
+                    datum: formData.datum,
+                    wert: formData.wert,
+                    valid: formData.valid
+                })
       this.dialog = false;
     }
   }

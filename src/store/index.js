@@ -130,9 +130,8 @@ const store = new Vuex.Store({
           commit("loading");
         });
     },
-    SAVE_MESSWERT({ commit, dispatch }, qrk_id, messwert_id, payload) {
+    SAVE_NEW_MESSWERT({ commit, dispatch }, qrk_id, messwert_id, payload) {
       commit("loading");
-      if (messwert_id === "") {
         http
           .post(`/qrk/${qrk_id}/messwert`, payload)
           .then(res => {
@@ -142,18 +141,6 @@ const store = new Vuex.Store({
           .catch(error => {
             console.log(error);
           });
-      } else {
-        http
-          .put(`/qrk/${qrk_id}/messwert/${messwert_id}`, payload)
-          .then(res => {
-            commit("setServerMessage", res.data);
-            dispatch("GET_ALL_QRK");
-          })
-          .catch(error => {
-            console.log(error);
-            commit("loading");
-          });
-      }
     }
   },
   getters: {
