@@ -15,7 +15,7 @@
     <h1>Übersicht der Qualitätsregelkarten</h1>
     <v-card>
       <v-layout row wrap>
-        <v-flex xs12 sm6 style="padding: 2%;" v-for="(qrk, i) in qrks" :key="i">
+        <v-flex xs12 sm6 style="padding: 2%;" v-for="(qrk, i) in qrks" :key="i" >
           <v-card >
             <v-img :src="qrk.datei_pfad" aspect-ratio="2.75"></v-img>
             <v-card-title>
@@ -23,7 +23,7 @@
 
               <v-icon right @click="editItem(qrk)">edit</v-icon>
             </v-card-title>
-            <v-card-actions>
+            <v-card-actions v-if="qrks !== []">
               <v-btn class="primary" :to="{name: 'qrk', params: {qrk_id: qrk.id} }" fab small>
                 <v-icon>search</v-icon>
               </v-btn>
@@ -75,6 +75,9 @@
 import http from '../../axios-instance.js'
 
 export default {
+  created() {
+        this.$store.dispatch('GET_DATA');
+    },  
   computed: {
     qrks() {
       return this.$store.getters["qrks"];
@@ -84,14 +87,11 @@ export default {
     },
     getQRK() {
 
-      return this.$store.dispatch("GET_ALL_QRK");
+      //return this.$store.dispatch("GET_DATA");
 
     }
   },
-    created: function() {
-        this.$store.dispatch('GET_ALL_QRK');
-    },
-  data: () => ({
+    data: () => ({
     items: [
       { text: "Dashboard", disabled: false, href: "/" },
       { text: "QM", disabled: true, href: "/qm/qrkoverview" }
@@ -112,33 +112,19 @@ export default {
   methods: {
     save(event) {
         const formData = {
-		id: this.editedIndex,
             titel: this.editedItem.titel,
             x_achse_titel: this.editedItem.x_achse_titel,
             y_achse_titel: this.editedItem.y_achse_titel
         };
-	
-	    if (this.editedIndex == "") {
-		    this.$store.dispatch("SAVE_NEW_QRK", 
-			    {
-				    titel: formData.titel,
-				    x_achse_titel: formData.x_achse_titel,
-				    y_achse_titel: formData.y_achse_titel
-			    })
-	    } else {
-		    http.put(`/qrk/${this.editedIndex}`,
-			    {
-				    titel: formData.titel,
-				    x_achse_titel: formData.x_achse_titel,
-				    y_achse_titel: formData.y_achse_titel
-			    }).then( res => {
-				    this.$store.dispatch("GET_ALL_QRK");
-			    
-			    }).catch( error => {
-				    console.log(error);
-			    })
-	    } 
-	    this.dialog = false;
+        
+        if (this.editedIndex === "") {
+          this.$store.dispatch("SAVE_NEW_QRK", formData );
+          this.dialog = false;
+        }
+        else {
+          this.$store.dispatch("UPDATE_QRK", this.editedIndex, formData);
+          this.dialog = false;
+        }
     },
     close(event) {
       this.dialog = false;

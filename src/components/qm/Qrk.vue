@@ -187,13 +187,14 @@ export default {
                 wert: this.editedItem.wert,
                 valid: this.editedItem.valid
         }
-            this.$store.dispatch('SAVE_NEW_MESSWERT',
-                {
-                    datum: formData.datum,
-                    wert: formData.wert,
-                    valid: formData.valid
-                })
-      this.dialog = false;
+        if ( this.editedIndex === "") {
+          
+          this.$store.dispatch('SAVE_NEW_MESSWERT', qrk_id, formData)
+          this.dialog = false;
+          }
+          else {
+            this.$store.dispatch("UPDATE_QRK_MESSWERT", qrk_id, this.editedIndex, formData)
+          }
     }
   }
 };
