@@ -15,8 +15,8 @@
     <h1>Übersicht der Qualitätsregelkarten</h1>
     <v-card>
       <v-layout row wrap>
-        <v-flex xs12 sm6 style="padding: 2%;" v-for="(qrk, i) in this.$store.state.qrks" :key="i" >
-          <v-card >
+        <v-flex xs12 sm6 style="padding: 2%;" v-for="(qrk, i) in this.$store.state.qrks" :key="i">
+          <v-card>
             <v-img :src="qrk.datei_pfad" aspect-ratio="2.75"></v-img>
             <v-card-title>
               <h2>{{qrk.titel}}</h2>
@@ -24,9 +24,9 @@
               <v-icon right @click="editItem(qrk)">edit</v-icon>
             </v-card-title>
             <v-card-actions v-if="qrks !== []">
-              <!--<v-btn class="primary" :to="{ name: 'qrk', params: {qrk_id: qrk.id} }" fab small>
+              <v-btn class="primary" :to="{ name: 'qrk', params: {qrk_id: qrk.id} }" fab small>
                 <v-icon>search</v-icon>
-              </v-btn>-->
+              </v-btn>
             </v-card-actions>
           </v-card>
         </v-flex>
@@ -72,23 +72,15 @@
 
 <script>
 export default {
-  created() {
-        this.$store.dispatch('GET_DATA');
-    },  
   computed: {
     qrks() {
       return this.$store.getters["qrks"];
     },
     formTitle() {
       return this.editedIndex === "" ? "Neue Regelkarte" : "Bearbeiten";
-    },
-    getQRK() {
-
-      return this.$store.dispatch("GET_DATA");
-
     }
   },
-    data: () => ({
+  data: () => ({
     items: [
       { text: "Dashboard", disabled: false, href: "/" },
       { text: "QM", disabled: true, href: "/qm/qrkoverview" }
@@ -98,30 +90,29 @@ export default {
     editedItem: {
       titel: "",
       x_achse_titel: "",
-      y_achse_titel: "",
+      y_achse_titel: ""
     },
     defaultItem: {
       titel: "",
       x_achse_titel: "",
-      y_achse_titel: "",
+      y_achse_titel: ""
     }
   }),
   methods: {
     save() {
-        const formData = {
-            titel: this.editedItem.titel,
-            x_achse_titel: this.editedItem.x_achse_titel,
-            y_achse_titel: this.editedItem.y_achse_titel
-        };
-        
-        if (this.editedIndex === "") {
-          this.$store.dispatch("SAVE_NEW_QRK", formData );
-          this.dialog = false;
-        }
-        else {
-          this.$store.dispatch("UPDATE_QRK", this.editedIndex, formData);
-          this.dialog = false;
-        }
+      const formData = {
+        titel: this.editedItem.titel,
+        x_achse_titel: this.editedItem.x_achse_titel,
+        y_achse_titel: this.editedItem.y_achse_titel
+      };
+
+      if (this.editedIndex === "") {
+        this.$store.dispatch("SAVE_NEW_QRK", formData);
+        this.dialog = false;
+      } else {
+        this.$store.dispatch("UPDATE_QRK", this.editedIndex, formData);
+        this.dialog = false;
+      }
     },
     close() {
       this.dialog = false;
@@ -133,7 +124,7 @@ export default {
     editItem(qrk) {
       this.editedIndex = qrk.id;
       // eslint-disable-next-line
-        console.log(this.editedIndex);
+      console.log(this.editedIndex);
       this.editedItem = Object.assign({}, qrk);
       this.dialog = true;
     }

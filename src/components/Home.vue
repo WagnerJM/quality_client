@@ -6,12 +6,7 @@
     <v-layout row wrap>
       <v-flex xs12 sm6 offset-sm3 style="top: 50%;">
         <v-card class="clickable" @click.native="card_click($event, '/qm/qrkoverview')">
-          <v-img
-
-            src="http://localhost:5001/plot/placeholder"
-
-            aspect-ratio="2.75"
-          ></v-img>
+          <v-img src="http://localhost:5001/plot/placeholder" aspect-ratio="2.75"></v-img>
           <v-card-title>
             <h2>QM/QC</h2>
           </v-card-title>
@@ -24,9 +19,15 @@
 
 <script>
 export default {
+  created: function() {
+    this.get_data();
+  },
   methods: {
     card_click: function(event, path) {
       this.$router.push(path);
+    },
+    get_data: function() {
+      this.$store.dispatch("GET_DATA");
     }
   }
 };
