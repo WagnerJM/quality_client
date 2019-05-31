@@ -64,8 +64,8 @@
 
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" flat @click="close($event)">Cancel</v-btn>
-                <v-btn color="blue darken-1" flat @click="save($event)">Save</v-btn>
+                <v-btn color="blue darken-1" flat @click="close()">Cancel</v-btn>
+                <v-btn color="blue darken-1" flat @click="save()">Save</v-btn>
               </v-card-actions>
             </v-card>
           </v-dialog>
@@ -99,7 +99,7 @@
 </template>
 
 <script>
-import http from '../../axios-instance.js'
+
 export default {
   name: "qrk",
   props: {
@@ -171,17 +171,33 @@ export default {
   methods: {
     editItem(messwert) {
       this.editedIndex = messwert.id;
-      this.editedItem = Object.assign({}, qrk);
+      this.editedItem = Object.assign({}, messwert);
       this.dialog = true;
     },
 
-    close(event) {
+    close() {
       this.dialog = false;
       setTimeout(() => {
         this.editedItem = Object.assign({}, this.defaultItem);
         this.editedIndex = "";
       }, 300);
-    }}
+    },
+    save() {
+        const formData = {
+            datum: this.editedItem.datum,
+                wert: this.editedItem.wert,
+                valid: this.editedItem.valid
+        }
+        if ( this.editedIndex === "") {
+          
+          this.$store.dispatch('SAVE_NEW_MESSWERT', this.qrk_id, formData)
+          this.dialog = false;
+          }
+          else {
+            this.$store.dispatch("UPDATE_QRK_MESSWERT", this.qrk_id, this.editedIndex, formData)
+          }
+    }
+  }
 };
 </script>
 
