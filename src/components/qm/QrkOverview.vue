@@ -23,10 +23,10 @@
 
               <v-icon right @click="editItem(qrk)">edit</v-icon>
             </v-card-title>
-            <v-card-actions>
-              <v-btn class="primary" :to="{name: 'qrk', params: {qrk_id: qrk.id} }" fab small>
+<!--	    <v-card-actions >
+              <v-btn  class="primary" :to="{name: 'qrk', params: {qrk_id: qrk.id} }" fab small>
                 <v-icon>search</v-icon>
-              </v-btn>
+	      </v-btn> -->
             </v-card-actions>
           </v-card>
         </v-flex>
@@ -82,15 +82,11 @@ export default {
     formTitle() {
       return this.editedIndex === "" ? "Neue Regelkarte" : "Bearbeiten";
     },
-    getQRK() {
-
-      return this.$store.dispatch("GET_ALL_QRK");
-
-    }
   },
-    created: function() {
-        this.$store.dispatch('GET_ALL_QRK');
-    },
+created: function() {
+	this.$store.dispatch('GET_ALL_QRK');
+},
+    
   data: () => ({
     items: [
       { text: "Dashboard", disabled: false, href: "/" },

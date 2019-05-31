@@ -10,64 +10,8 @@ const store = new Vuex.Store({
     isAuthenticated: true,
     loading: false,
     token: "",
-    qrks: [
-      {
-        id: "aa3aa4-rrt3",
-        titel: "Titel",
-        x_achse_titel: "Datum",
-        y_achse_titel: "Messwert [mL]",
-        obere_warngrenze: 0.0,
-        untere_warngrenze: 0.0,
-        obere_eingriffsgrenze: 0.0,
-        untere_eingriffsgrenze: 0.0,
-        stdabw: 0.0,
-        mittelwert: 0.0,
-        aktiv: true,
-        messwerte: [
-          {
-            id: "t9t9ne-adef",
-            datum: "16.04.2019",
-            wert: 10.04,
-            valid: true
-          },
-          {
-            id: "t9n2cb-lolo",
-            datum: "16.05.2019",
-            wert: 10.02,
-            valid: false
-          }
-        ],
-        bild_pfad: "https://cdn.vuetifyjs.com/images/cards/desert.jpg"
-      },
-      {
-        id: "ttet-tasdf",
-        titel: "Titel 2",
-        x_achse_titel: "Datum",
-        y_achse_titel: "Messwert [mL]",
-        obere_warngrenze: 0.0,
-        untere_warngrenze: 0.0,
-        obere_eingriffsgrenze: 0.0,
-        untere_eingriffsgrenze: 0.0,
-        stdabw: 0.0,
-        mittelwert: 0.0,
-        aktiv: true,
-        messwerte: [
-          {
-            id: "t9t9ne-adef",
-            datum: "16.04.2019",
-            wert: 10.04,
-            valid: false
-          },
-          {
-            id: "t9n2cb-lolo",
-            datum: "16.05.2019",
-            wert: 10.02,
-            valid: false
-          }
-        ],
-        bild_pfad: "https://cdn.vuetifyjs.com/images/cards/desert.jpg"
-      }
-    ],
+    qrks: null
+    ,
     serverMessage: ""
   },
   mutations: {
@@ -122,6 +66,7 @@ const store = new Vuex.Store({
       http
         .get("/qrk")
         .then(res => {
+		console.log(res.data);
           commit("setAllQrk", res.data);
           commit("loading");
         })

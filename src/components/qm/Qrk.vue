@@ -99,12 +99,13 @@
 </template>
 
 <script>
+import http from '../../axios-instance.js'
 export default {
   name: "qrk",
   props: {
     qrk_id: {
       type: String,
-      required: true
+     required: true
     }
   },
 
@@ -180,22 +181,7 @@ export default {
         this.editedItem = Object.assign({}, this.defaultItem);
         this.editedIndex = "";
       }, 300);
-    },
-    save(event) {
-        const formData = {
-            datum: this.editedItem.datum,
-                wert: this.editedItem.wert,
-                valid: this.editedItem.valid
-        }
-            this.$store.dispatch('SAVE_NEW_MESSWERT',
-                {
-                    datum: formData.datum,
-                    wert: formData.wert,
-                    valid: formData.valid
-                })
-      this.dialog = false;
-    }
-  }
+    }}
 };
 </script>
 
