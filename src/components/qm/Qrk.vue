@@ -99,6 +99,7 @@
 </template>
 
 <script>
+import http from '../../axios-instance';
 
 export default {
   name: "qrk",
@@ -170,6 +171,7 @@ export default {
   },
   methods: {
     editItem(messwert) {
+      console.log(messwert.id);
       this.editedIndex = messwert.id;
       this.editedItem = Object.assign({}, messwert);
       this.dialog = true;
@@ -184,17 +186,33 @@ export default {
     },
     save() {
         const formData = {
+          
             datum: this.editedItem.datum,
                 wert: this.editedItem.wert,
                 valid: this.editedItem.valid
         }
         if ( this.editedIndex === "") {
-          
-          this.$store.dispatch('SAVE_NEW_MESSWERT', this.qrk_id, formData)
+          console.log(this.qrk_id)
+          http
+            .post(`/qrk/${this.qrk_id}/messwert`, formData)
+            .then((res) => {
+              this.$store.dispatch("GET_DATA")
+            })
+            .catch((error) => {
+              console.log(error)
+            })
           this.dialog = false;
           }
           else {
-            this.$store.dispatch("UPDATE_QRK_MESSWERT", this.qrk_id, this.editedIndex, formData)
+            http
+            .put(`qrk/${this.qrk_id}/messwert/${this.editedIndex}`, formData)
+            .then((res) => {
+              this.$store.dispatch("GET_DATA");
+            })
+            .catch((error) => {
+              console.log(error)
+            })
+            this.dialog = false;
           }
     }
   }

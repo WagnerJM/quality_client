@@ -58,7 +58,7 @@ const store = new Vuex.Store({
         });
     },
     UPDATE_QRK({ commit, dispatch }, qrk_id, payload) {
-      commit("loading");
+      //commit("loading");
       http
         .put(`/qrk/${qrk_id}`, {
           titel: payload.titel,
@@ -75,7 +75,7 @@ const store = new Vuex.Store({
         });
     },
     SAVE_NEW_MESSWERT({ commit, dispatch }, qrk_id, payload) {
-      commit("loading");
+      //commit("loading");
       http
         .post(`/qrk/${qrk_id}/messwert`, {
           date: payload.datum,
@@ -85,7 +85,7 @@ const store = new Vuex.Store({
         .then(res => {
           commit("setServerMessage", res.data);
           dispatch("GET_DATA");
-          commit("loading");
+          //commit("loading");
         })
         .catch(error => {
           console.log(error);
