@@ -26,7 +26,7 @@
     </v-layout>
     <v-layout column>
       <v-flex>
-        <v-img :src="qrk.datei_pfad"></v-img>
+        <v-img :src="qrk.datei_pfad "></v-img>
       </v-flex>
       <v-flex>
         <v-toolbar flat>
@@ -100,6 +100,7 @@
 
 <script>
 import http from '../../axios-instance';
+import axios from 'axios';
 
 export default {
   name: "qrk",
@@ -155,7 +156,8 @@ export default {
   watch: {
     dialog(val) {
       val || this.close();
-    }
+    },
+    
   },
 
   computed: {
@@ -202,6 +204,10 @@ export default {
               console.log(error)
             })
           this.dialog = false;
+  setTimeout(() => {
+        
+      }, 300);
+
           }
           else {
             http

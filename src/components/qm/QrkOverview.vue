@@ -111,6 +111,11 @@ export default {
       if (this.editedIndex === "") {
         this.$store.dispatch("SAVE_NEW_QRK", formData);
         this.dialog = false;
+        setTimeout(() => {
+        this.editedItem = Object.assign({}, this.defaultItem);
+        this.editedIndex = "";
+      }, 300);
+
       } else {
         http.put(`/qrk/${this.editedIndex}`, {titel: formData.titel, x_achse_titel: formData.x_achse_titel, y_achse_titel: formData.y_achse_titel})
         .then((res) => {
@@ -119,6 +124,10 @@ export default {
           console.log(error)
         })
         this.dialog = false;
+          setTimeout(() => {
+          this.editedItem = Object.assign({}, this.defaultItem);
+          this.editedIndex = "";
+        }, 300);
       }
     },
     close() {
